@@ -1,0 +1,44 @@
+---
+- name: Install Neo4j rpm key
+  rpm_key:
+    state: present
+    key: http://debian.neo4j.org/neotechnology.gpg.key
+ 
+- name: Add yum repository
+  yum_repository:
+    name: neo4j
+    description: Neo4j Yum repo
+    baseurl: http://yum.neo4j.org/stable
+    enabled: yes
+    gpgcheck: true
+
+- name: Install Neo4j
+  yum:
+    name: neo4j
+    state: present
+
+- name: Use custom configuration
+  template:
+    src: neo4j.conf
+    dest: /etc/neo4j/neo4j.conf
+  register: neo4j_conf
+  tags: neo4j
+
+- name: Start Neo4j Service
+  service:
+    name: neo4j
+    state: started
+
+- name: Pause for 20 sec to get the database up and running
+  pause:
+    seconds: 20
+
+- name: Change default password
+  command: /usr/bin/cypher-shell -u neo4j -p neo4j --non-interactive "CALL dbms.changePassword('{{neo4jDatabase.newPassword}}');"
+
+- name: Restart Neo4j
+  service:
+   name: neo4j
+   state: restarted
+   enabled: yes
+  when: neo4j_conf.changed

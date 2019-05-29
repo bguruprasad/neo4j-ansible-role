@@ -1,0 +1,8 @@
+---
+- name: Install Neo4j
+  hosts: localhost
+  become: yes
+  become_user: root
+  roles:
+    - neo4j-role
+     

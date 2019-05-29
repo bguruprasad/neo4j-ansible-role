@@ -1,0 +1,12 @@
+---
+- name: startNeo4j
+  service:
+    name: neo4j
+    status: started
+
+- name: pause20Sec 
+  pause:
+    seconds: 20
+
+- name: ChangeDefaultPassword
+  command: /usr/bin/cypher-shell -u neo4j -p neo4j --non-interactive "CALL dbms.changePassword('{{neo4jDatabase.newPassword}}');"

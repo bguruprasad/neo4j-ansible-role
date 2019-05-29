@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Guruprasad Bhavsar
+  description: Ansible role for deploying Neo4j database in single instance mode.
+  company: Neueda
+
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: CentOS
+    versions:
+    - 7
