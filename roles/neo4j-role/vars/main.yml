@@ -1,0 +1,7 @@
+---
+# vars file for neo4j-role
+neo4jConfig:
+  listeningIp: 0.0.0.0 
+
+neo4jDatabase:
+  newPassword: password
